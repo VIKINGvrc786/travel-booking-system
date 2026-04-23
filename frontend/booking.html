@@ -19,17 +19,20 @@
     <div class="glass-card">
         <h2 style="text-align:center;">Cloud Reservation Engine</h2>
         <form id="bookingForm">
+            <label>Transport Mode:</label>
+            <select id="transportType" onchange="updateRoutes()">
+                <option value="Flight">✈️ International Flight (Out of India)</option>
+                <option value="Train">🚆 Interstate Express (Out of Maharashtra)</option>
+                <option value="Bus">🚌 Intercity Bus (Mumbai/Thane Region)</option>
+            </select>
+
             <div class="grid">
                 <div>
-                    <label>Transport Mode:</label>
-                    <select id="transportType" onchange="updateRoutes()">
-                        <option value="Flight">✈️ International Flight (Out of India)</option>
-                        <option value="Train">🚆 Interstate Express (Out of Maharashtra)</option>
-                        <option value="Bus">🚌 Intercity Bus (Mumbai/Thane Region)</option>
-                    </select>
+                    <label>From:</label>
+                    <input type="text" id="source" placeholder="Origin (e.g. Mumbai)" required>
                 </div>
                 <div>
-                    <label>Destination:</label>
+                    <label>To:</label>
                     <select id="destination"></select>
                 </div>
             </div>
@@ -135,7 +138,7 @@
                 passengers,
                 contactEmail: document.getElementById('contactEmail').value,
                 phone: document.getElementById('phone').value,
-                source: "MUMBAI (BOM)",
+                source: document.getElementById('source').value, // FIXED: Sending Source
                 destination: document.getElementById('destination').value,
                 transportType: document.getElementById('transportType').value,
                 hotelStay: document.getElementById('hotelStay').value,
