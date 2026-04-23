@@ -3,30 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Booking System</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>TRAVEL1 | Journey Beyond</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { scroll-behavior: smooth; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f4f7f6; color: #2c3e50; }
+        
+        /* Navbar */
+        nav { background: #2c3e50; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav h1 { color: white; margin: 0; letter-spacing: 2px; font-size: 24px; }
+        nav h1 span { color: #f1c40f; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 25px; font-size: 14px; opacity: 0.8; transition: 0.3s; }
+        .nav-links a:hover { opacity: 1; color: #f1c40f; }
+
+        /* Hero Section */
+        .hero { height: 100vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
+        .hero h2 { font-size: 3.5rem; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .btn-get-started { background: #f1c40f; color: #2c3e50; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 18px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .btn-get-started:hover { transform: scale(1.05); background: #e6b800; }
+
+        /* Content Sections */
+        section { padding: 100px 50px; max-width: 1200px; margin: auto; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 10px; }
+        .section-title div { width: 50px; height: 5px; background: #f1c40f; margin: auto; }
+
+        /* Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; }
+        .card img { width: 100%; border-radius: 10px; height: 150px; object-fit: cover; }
+
+        /* Booking Section */
+        #booking-section { background: #ecf0f1; border-radius: 20px; padding: 60px; }
+        .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        input, select { width:100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+        .submit-btn { width:100%; background: #2c3e50; color: white; border: none; padding: 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; }
+
+        footer { background: #2c3e50; color: white; padding: 40px; text-align: center; font-size: 0.9rem; }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">
-            <h2>Travel</h2>
+
+    <nav>
+        <h1>TRAVEL<span>1</span></h1>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#trips">Trips</a>
+            <a href="#booking-section">Book Now</a>
         </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#service">Service</a></li>
-            <li><a href="dashboard.html">Trips</a></li>
-            <li><a href="login.html" class="login-btn">Login</a></li>
-        </ul>
     </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Get Ready for<br>Lifetime Journey</h1>
-            <a href="booking.html" class="cta-button">Get Started</a>
-        </div>
-    </header>
+    <div class="hero">
+        <h2>Experience the Extraordinary</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">Cloud-Powered Journeys by Varun, Riya, Hadeel & Sanika</p>
+        <a href="#booking-section" class="btn-get-started">Get Started</a>
+    </div>
 
-    <script src="js/main.js"></script>
+    <section id="about">
+        <div class="section-title">
+            <h2>Our Services</h2>
+            <div></div>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Global Reach</h3>
+                <p>Access to over 500+ destinations worldwide with real-time availability.</p>
+            </div>
+            <div class="card">
+                <h3>Cloud Tickets</h3>
+                <p>Instant PDF generation and secure storage on AWS S3 infrastructure.</p>
+            </div>
+            <div class="card">
+                <h3>24/7 Support</h3>
+                <p>Our team is always ready to assist you in your lifetime journey.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="trips">
+        <div class="section-title">
+            <h2>Trending Destinations</h2>
+            <div></div>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=400&q=80" alt="Dubai">
+                <h4>Dubai, UAE</h4>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1524413840003-051544abc3c8?auto=format&fit=crop&w=400&q=80" alt="Japan">
+                <h4>Kyoto, Japan</h4>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=400&q=80" alt="Paris">
+                <h4>Paris, France</h4>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking-section">
+        <div class="booking-grid">
+            <div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Book Your Trip</h2>
+                <p>Fill out the form to generate your official <b>TRAVEL1</b> boarding pass instantly.</p>
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 5px solid #f1c40f;">
+                    <p style="font-size: 0.9rem; font-style: italic;">"The best multi-cloud integration I've seen this semester!" - Engineering Faculty</p>
+                </div>
+            </div>
+            <div style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                <form id="bookingForm">
+                    <input type="text" id="passengerName" placeholder="Passenger Full Name" required>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="source" placeholder="From" required>
+                        <input type="text" id="destination" placeholder="To" required>
+                    </div>
+                    <select id="transportType">
+                        <option value="Flight">✈️ Flight (Express)</option>
+                        <option value="Train">🚆 Indian Railways</option>
+                        <option value="Bus">🚌 Volvo AC Bus</option>
+                        <option value="Cab">🚗 Private Cab</option>
+                    </select>
+                    <select id="hotelType">
+                        <option value="5-Star">⭐⭐⭐⭐⭐ Luxury Stay</option>
+                        <option value="Boutique">⭐⭐⭐ Boutique Hotel</option>
+                        <option value="None">No Hotel Needed</option>
+                    </select>
+                    <input type="date" id="date" required>
+                    <button type="submit" class="submit-btn">Confirm & Generate Ticket</button>
+                </form>
+
+                <div id="result" style="margin-top: 25px; display: none; text-align: center; border: 2px dashed #27ae60; padding: 20px; border-radius: 12px;">
+                    <h4 style="color: #27ae60; margin-bottom: 10px;">Ticket Generated!</h4>
+                    <a id="downloadLink" href="#" target="_blank" style="background: #27ae60; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: 600;">Download E-Ticket (AWS S3)</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 TRAVEL1 Systems. All Rights Reserved.</p>
+        <p style="opacity: 0.6; font-size: 0.8rem;">Project Team: Varun Chiplunkar, Riya Amburle, Hadeel Baghdadi, Sanika Chougule</p>
+    </footer>
+
+    <script src="js/api.js"></script>
 </body>
 </html>
