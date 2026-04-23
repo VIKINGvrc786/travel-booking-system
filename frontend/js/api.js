@@ -17,9 +17,10 @@ if (loginForm) {
         const data = await res.json();
         if (res.ok) {
             localStorage.setItem('userId', data.userId);
-            window.location.href = 'booking.html';
+            document.getElementById('auth-section').style.display = 'none';
+            document.getElementById('booking-section').style.display = 'block';
         } else {
-            alert("Login Failed: " + data.error);
+            document.getElementById('loginMessage').innerText = "Invalid Login";
         }
     });
 }
@@ -36,7 +37,7 @@ if (bookingForm) {
             source: document.getElementById('source').value,
             destination: document.getElementById('destination').value,
             transportType: document.getElementById('transportType').value,
-            hotelType: document.getElementById('hotelType').value,
+            foodPref: document.getElementById('foodPref').value, // Sync with backend!
             date: document.getElementById('date').value
         };
 
@@ -51,7 +52,7 @@ if (bookingForm) {
             document.getElementById('result').style.display = 'block';
             document.getElementById('downloadLink').href = data.ticketUrl;
         } else {
-            alert('Booking failed. Please check the server logs.');
+            alert('Booking failed. Check backend logs.');
         }
     });
 }
