@@ -1,6 +1,6 @@
 const API_URL = 'https://travel-backend-oh36.onrender.com/api';
 
-// Handle Login
+// 1. Handle Login
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -19,32 +19,31 @@ if (loginForm) {
             localStorage.setItem('userId', data.userId);
             window.location.href = 'booking.html';
         } else {
-            document.getElementById('loginMessage').innerText = data.error;
+            alert("Login Failed: " + data.error);
         }
     });
 }
 
-// Handle Booking
+// 2. Handle Booking
 const bookingForm = document.getElementById('bookingForm');
 if (bookingForm) {
     bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const passengerName = document.getElementById('passengerName').value;
-        const source = document.getElementById('source').value;
-        const destination = document.getElementById('destination').value;
-        const date = document.getElementById('date').value;
-        const userId = localStorage.getItem('userId');
-
-        if (!userId) {
-            alert("Please login first!");
-            window.location.href = 'login.html';
-            return;
-        }
+        
+        const payload = {
+            userId: localStorage.getItem('userId'),
+            passengerName: document.getElementById('passengerName').value,
+            source: document.getElementById('source').value,
+            destination: document.getElementById('destination').value,
+            transportType: document.getElementById('transportType').value,
+            hotelType: document.getElementById('hotelType').value,
+            date: document.getElementById('date').value
+        };
 
         const res = await fetch(`${API_URL}/bookings/book`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId, passengerName, source, destination, date })
+            body: JSON.stringify(payload)
         });
 
         const data = await res.json();
@@ -52,7 +51,7 @@ if (bookingForm) {
             document.getElementById('result').style.display = 'block';
             document.getElementById('downloadLink').href = data.ticketUrl;
         } else {
-            alert('Booking failed.');
+            alert('Booking failed. Please check the server logs.');
         }
     });
 }

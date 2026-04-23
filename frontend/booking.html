@@ -2,27 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Book a Trip</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAVEL1 | Premium Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; }
+        .cta-button { background: #2c3e50; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .cta-button:hover { background: #34495e; }
+        input, select { width:100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+    </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="form-container" style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-            <h2 style="text-align: center; margin-bottom: 20px;">Book Your Trip</h2>
-            <form id="bookingForm">
-                <input type="text" id="passengerName" placeholder="Full Name" required style="display:block; margin: 10px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
-                <input type="text" id="source" placeholder="From (e.g., Mumbai)" required style="display:block; margin: 10px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
-                <input type="text" id="destination" placeholder="To (e.g., Dubai, Japan)" required style="display:block; margin: 10px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
-                <input type="date" id="date" required style="display:block; margin: 10px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
-                <button type="submit" class="cta-button" style="width: 100%; padding: 12px; cursor: pointer;">Confirm Booking</button>
-            </form>
+
+    <nav style="background: #2c3e50; padding: 15px 50px; color: white; display: flex; justify-content: space-between; align-items: center;">
+        <h1 style="margin: 0; letter-spacing: 2px;">TRAVEL<span style="color: #f1c40f;">1</span></h1>
+        <div style="font-size: 0.75rem; text-align: right; line-height: 1.2;">
+            <b>Team:</b> Varun, Riya, Hadeel, Sanika
+        </div>
+    </nav>
+
+    <div style="padding: 50px 20px;">
+        <div style="max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
             
-            <div id="result" style="margin-top: 20px; display: none; text-align: center;">
-                <h3 style="color: green;">Booking Successful!</h3>
-                <a id="downloadLink" href="#" target="_blank" class="cta-button" style="background: #28a745; display: inline-block; padding: 12px 20px; text-decoration: none; color: white; border-radius: 4px; margin-top: 10px;">Download E-Ticket (AWS S3)</a>
+            <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <h2 style="margin-top: 0; color: #2c3e50;">Plan Your Journey</h2>
+                <form id="bookingForm">
+                    <input type="text" id="passengerName" placeholder="Passenger Full Name" required>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="source" placeholder="From (Origin)" required>
+                        <input type="text" id="destination" placeholder="To (Destination)" required>
+                    </div>
+                    <select id="transportType">
+                        <option value="Flight">✈️ Flight (Express)</option>
+                        <option value="Train">🚆 Indian Railways</option>
+                        <option value="Bus">🚌 Volvo AC Bus</option>
+                        <option value="Cab">🚗 Private Cab</option>
+                    </select>
+                    <select id="hotelType">
+                        <option value="5-Star">⭐⭐⭐⭐⭐ Luxury Stay</option>
+                        <option value="Boutique">⭐⭐⭐ Boutique Hotel</option>
+                        <option value="Budget">⭐ Budget Stay</option>
+                        <option value="None">No Hotel Needed</option>
+                    </select>
+                    <input type="date" id="date" required>
+                    <button type="submit" class="cta-button" style="width:100%;">Confirm & Generate Ticket</button>
+                </form>
+
+                <div id="result" style="margin-top: 20px; display: none; text-align: center; border: 2px dashed #27ae60; padding: 15px; border-radius: 10px;">
+                    <p style="color: #27ae60; font-weight: 600;">Booking Confirmed!</p>
+                    <a id="downloadLink" href="#" target="_blank" style="background: #27ae60; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Download T1 E-Ticket</a>
+                </div>
+            </div>
+
+            <div>
+                <div style="background: #2c3e50; color: white; padding: 25px; border-radius: 15px; margin-bottom: 20px;">
+                    <h3 style="margin-top:0;">Why TRAVEL1?</h3>
+                    <p style="font-size: 0.9rem;">The only travel portal with direct AWS S3 integration for instant secure ticketing.</p>
+                </div>
+                <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <h3 style="margin-top:0;">Customer Feedback</h3>
+                    <p style="font-size: 0.85rem; font-style: italic;">"The smoothest booking experience for our group project!" - Riya A.</p>
+                    <hr style="border: 0; border-top: 1px solid #eee;">
+                    <p style="font-size: 0.85rem; font-style: italic;">"Cloud integration works flawlessly." - Hadeel B.</p>
+                </div>
             </div>
         </div>
     </div>
+
     <script src="js/api.js"></script>
 </body>
 </html>
