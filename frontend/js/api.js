@@ -1,6 +1,5 @@
 const API_URL = 'https://travel-backend-oh36.onrender.com/api';
 
-// 1. Handle Login
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -20,12 +19,11 @@ if (loginForm) {
             document.getElementById('auth-section').style.display = 'none';
             document.getElementById('booking-section').style.display = 'block';
         } else {
-            document.getElementById('loginMessage').innerText = "Invalid Login";
+            document.getElementById('loginMessage').innerText = "Access Denied: Check Credentials";
         }
     });
 }
 
-// 2. Handle Booking
 const bookingForm = document.getElementById('bookingForm');
 if (bookingForm) {
     bookingForm.addEventListener('submit', async (e) => {
@@ -37,7 +35,8 @@ if (bookingForm) {
             source: document.getElementById('source').value,
             destination: document.getElementById('destination').value,
             transportType: document.getElementById('transportType').value,
-            foodPref: document.getElementById('foodPref').value, // Sync with backend!
+            foodPref: document.getElementById('foodPref').value,
+            stayDuration: document.getElementById('stayDuration').value,
             date: document.getElementById('date').value
         };
 
@@ -52,7 +51,7 @@ if (bookingForm) {
             document.getElementById('result').style.display = 'block';
             document.getElementById('downloadLink').href = data.ticketUrl;
         } else {
-            alert('Booking failed. Check backend logs.');
+            alert('Cloud Sync Failed.');
         }
     });
 }

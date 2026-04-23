@@ -9,9 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json()); 
 
-// ==========================================
-// 1. STaaS: AWS S3 Configuration
-// ==========================================
 const s3Client = new S3Client({
     region: process.env.AWS_REGION,
     credentials: {
@@ -20,16 +17,10 @@ const s3Client = new S3Client({
     }
 });
 
-// ==========================================
-// 2. DBaaS: MongoDB Atlas Connection
-// ==========================================
 mongoose.connect(process.env.MONGO_URI, { family: 4 })
     .then(() => console.log('✅ Connected to MongoDB Atlas'))
     .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
-// ==========================================
-// 3. Database Schemas
-// ==========================================
 const UserSchema = new mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true }
@@ -42,17 +33,13 @@ const BookingSchema = new mongoose.Schema({
     source: String,
     destination: String,
     transportType: String,
-    foodPref: String, // Added for Consumer UX
+    foodPref: String,
+    stayDuration: String,
     date: String,
     ticketUrl: String
 });
 const Booking = mongoose.model('Booking', BookingSchema);
 
-// ==========================================
-// 4. API Endpoints
-// ==========================================
-
-// Auth Route
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -67,46 +54,49 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-// Booking Route + PDF Generation + S3 Upload
 app.post('/api/bookings/book', async (req, res) => {
     try {
-        const { userId, passengerName, source, destination, date, transportType, foodPref } = req.body;
+        const { userId, passengerName, source, destination, date, transportType, foodPref, stayDuration } = req.body;
+        const pnr = 'T1-' + Math.random().toString(36).substr(2, 9).toUpperCase();
 
         const doc = new PDFDocument({ margin: 50 });
         let buffers = [];
         doc.on('data', buffers.push.bind(buffers));
         
-        // --- Professional Ticket UI Design ---
-        doc.rect(0, 0, 612, 100).fill('#2c3e50'); // Header Bar
+        // Header
+        doc.rect(0, 0, 612, 100).fill('#2c3e50'); 
         doc.fillColor('white').fontSize(30).text('TRAVEL1', 50, 40);
-        doc.fontSize(10).text('Premium E-Ticket | Cloud-Native System', 50, 75);
+        doc.fontSize(10).text('SECURE CLOUD BOARDING PASS', 50, 75);
 
-        doc.fillColor('black').fontSize(20).text('BOARDING PASS', 50, 130);
+        // Body
+        doc.fillColor('black').fontSize(20).text('E-TICKET', 50, 130);
+        doc.fontSize(10).text(`PNR: ${pnr}`, 480, 135);
         doc.moveTo(50, 155).lineTo(550, 155).stroke();
 
         doc.fontSize(12).text(`PASSENGER: ${passengerName.toUpperCase()}`, 50, 180);
         doc.text(`TRANSPORT: ${transportType}`, 50, 205);
-        doc.text(`MEAL PREF: ${foodPref}`, 300, 205); 
+        doc.text(`MEAL: ${foodPref}`, 250, 205);
+        doc.text(`STAY: ${stayDuration}`, 420, 205);
         
-        doc.fontSize(18).text(`${source.toUpperCase()}`, 50, 250);
-        doc.fontSize(10).text('ORIGIN', 50, 270);
-        
-        doc.fontSize(18).text(`>>> TO >>>`, 250, 250);
-        
-        doc.fontSize(18).text(`${destination.toUpperCase()}`, 450, 250);
-        doc.fontSize(10).text('DESTINATION', 450, 270);
+        doc.fontSize(18).text(`${source.toUpperCase()}`, 50, 260);
+        doc.fontSize(10).text('ORIGIN', 50, 280);
+        doc.fontSize(18).text(`>>>`, 280, 260);
+        doc.fontSize(18).text(`${destination.toUpperCase()}`, 450, 260);
+        doc.fontSize(10).text('DESTINATION', 450, 280);
 
         doc.moveTo(50, 310).lineTo(550, 310).stroke();
-        doc.fontSize(12).text(`DATE OF TRAVEL: ${date}`, 50, 330);
+        doc.fontSize(12).text(`DEPARTURE DATE: ${date}`, 50, 330);
 
-        // Footer & Branding
-        doc.fontSize(8).fillColor('grey').text('TRAVEL1 Systems - Cloud Integrated Ticketing', 50, 680, {align: 'center'});
-        doc.text('Mumbai | London | Dubai | Tokyo', 50, 695, {align: 'center'});
+        // VIKING Watermark
+        doc.fontSize(40).fillColor('#eeeeee').text('VIKING', 200, 500, { opacity: 0.1 });
+        
+        // Footer
+        doc.fontSize(8).fillColor('grey').text('TRAVEL1 Systems | Verified by AWS S3', 50, 700, {align: 'center'});
         doc.end();
 
         doc.on('end', async () => {
             const pdfData = Buffer.concat(buffers);
-            const fileName = `T1-ticket-${Date.now()}.pdf`;
+            const fileName = `VIKING-ticket-${Date.now()}.pdf`;
 
             const uploadParams = {
                 Bucket: process.env.S3_BUCKET_NAME,
@@ -115,39 +105,19 @@ app.post('/api/bookings/book', async (req, res) => {
                 ContentType: 'application/pdf'
             };
 
-            // Send to AWS S3
             await s3Client.send(new PutObjectCommand(uploadParams));
-            
-            // Generate public URL
             const ticketUrl = `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
-            // Save to MongoDB Atlas
-            const newBooking = new Booking({ 
-                userId, 
-                passengerName, 
-                source, 
-                destination, 
-                date, 
-                transportType, 
-                foodPref, 
-                ticketUrl 
-            });
+            const newBooking = new Booking({ userId, passengerName, source, destination, date, transportType, foodPref, stayDuration, ticketUrl });
             await newBooking.save();
 
-            // Respond to Frontend
             res.status(200).json({ message: 'Success', ticketUrl });
         });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to process booking' });
+        res.status(500).json({ error: 'Server Error' });
     }
 });
 
-// ==========================================
-// 5. Start TRAVEL1 Engine
-// ==========================================
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🚀 TRAVEL1 Backend Active on Port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 VIKING TRAVEL1 Live on Port ${PORT}`));
