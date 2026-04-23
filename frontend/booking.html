@@ -2,82 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TRAVEL1 | Cloud Booking Engine</title>
+    <title>TRAVEL1 | Booking Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; padding-top: 100px; margin: 0; }
-        nav { background: #2c3e50; padding: 15px 50px; position: fixed; width: 100%; top: 0; }
-        .booking-card { background: white; max-width: 850px; margin: auto; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        body { font-family: 'Poppins', sans-serif; background: url('https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-attachment: fixed; margin: 0; padding-top: 100px; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); max-width: 900px; margin: auto; padding: 40px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        input, select { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
-        .btn-pay { background: #27ae60; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1.1rem; margin-top: 20px; }
-        .download-link { display: none; background: #2c3e50; color: white; text-align: center; padding: 20px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: 600; font-size: 1.2rem; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+        .btn-confirm { background: #27ae60; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1.1rem; }
+        .download-btn { display: none; background: #2c3e50; color: white; text-align: center; padding: 20px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 1.2rem; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <nav><h1 style="color:white; margin:0;">TRAVEL<span>1</span></h1></nav>
 
-    <div class="booking-card">
-        <h2 style="text-align:center; margin-top:0;">Secure Reservation Engine</h2>
+    <div class="glass-card">
+        <h2 style="text-align:center; color:#2c3e50;">Secure Cloud Booking Engine</h2>
         <form id="bookingForm">
+            <label>Select Transport Mode:</label>
+            <select id="transportType" onchange="updateRoutes()">
+                <option value="Flight">✈️ International Flight (Out of India)</option>
+                <option value="Train">🚆 Interstate Express (Out of Maharashtra)</option>
+                <option value="Bus">🚌 Intercity Bus (Mumbai/Thane Region)</option>
+            </select>
+
             <div class="grid">
-                <input type="text" id="passengerName" placeholder="Full Passenger Name" required>
-                <input type="email" id="contactEmail" placeholder="Email Address for Ticket" required>
+                <div>
+                    <label>From:</label>
+                    <input type="text" id="source" value="Mumbai (BOM)" readonly>
+                </div>
+                <div>
+                    <label>To:</label>
+                    <select id="destination"></select>
+                </div>
             </div>
+
             <div class="grid">
-                <input type="text" id="phone" placeholder="Contact Phone Number" required>
-                <input type="date" id="date" required>
-            </div>
-            <div class="grid">
-                <input type="text" id="source" placeholder="Origin City" required>
-                <input type="text" id="destination" placeholder="Destination City" required>
-            </div>
-            <div class="grid">
-                <input type="number" id="adults" placeholder="Adults (18+)" min="1" required>
-                <input type="number" id="children" placeholder="Children (0-17)" min="0" required>
-            </div>
-            <div class="grid">
-                <select id="transportType">
-                    <option value="Flight">✈️ Flight (Business Class)</option>
-                    <option value="Train">🚆 First Class Express</option>
-                    <option value="Cab">🚗 Luxury Intercity Cab</option>
+                <select id="travelClass">
+                    <option>Business Class</option>
+                    <option>Economy Plus</option>
+                    <option>First Class</option>
                 </select>
                 <select id="hotelStay">
-                    <option value="3 Nights Stay">🌙 3 Nights - Resort Stay</option>
-                    <option value="5 Nights Stay">🌙 5 Nights - Deluxe Stay</option>
-                    <option value="7 Nights Stay">🌙 7 Nights - Luxury Stay</option>
+                    <option value="3 Nights Stay">🌙 3 Nights - Luxury Resort</option>
+                    <option value="5 Nights Stay">🌙 5 Nights - Executive Suite</option>
+                    <option value="None">No Accommodation</option>
                 </select>
             </div>
-            <select id="foodPref">
-                <option value="Veg">🥗 Premium Vegetarian Platter</option>
-                <option value="Non-Veg">🍗 Gourmet Non-Veg Platter</option>
-            </select>
-            <button type="submit" class="btn-pay" id="mainBtn">Process Payment & Generate Ticket</button>
-        </form>
 
-        <div id="status" style="display:none; text-align:center; margin-top:15px; color:#27ae60;">
-            📧 Booking Confirmed! E-mail confirmation and AWS S3 Sync complete.
-        </div>
-        <a id="downloadBtn" href="#" target="_blank" class="download-link">✅ DOWNLOAD VIKING E-TICKET</a>
+            <h4 style="border-bottom: 1px solid #ddd; padding-bottom: 10px;">Primary Passenger Details</h4>
+            <div class="grid">
+                <input type="text" id="passengerName" placeholder="Full Name" required>
+                <input type="number" id="age" placeholder="Age" required>
+            </div>
+            <div class="grid">
+                <input type="email" id="contactEmail" placeholder="Email" required>
+                <input type="text" id="phone" placeholder="Phone Number" required>
+            </div>
+            
+            <div class="grid">
+                <select id="foodPref">
+                    <option value="Veg">🥗 Premium Veg Meal</option>
+                    <option value="Non-Veg">🍗 Gourmet Non-Veg</option>
+                </select>
+                <input type="date" id="date" required>
+            </div>
+
+            <button type="submit" class="btn-confirm" id="mainBtn">Process & Generate VIKING Ticket</button>
+        </form>
+        <a id="downloadBtn" href="#" target="_blank" class="download-btn">✅ DOWNLOAD TICKET (AWS S3)</a>
     </div>
 
     <script>
+        const destinations = {
+            'Flight': ['London (LHR)', 'Dubai (DXB)', 'New York (JFK)', 'Tokyo (HND)', 'Singapore (SIN)', 'Paris (CDG)', 'Sydney (SYD)'],
+            'Train': ['Delhi', 'Bangalore', 'Chennai', 'Kolkata', 'Hyderabad', 'Jaipur', 'Ahmedabad'],
+            'Bus': ['Thane', 'Pune', 'Lonavala', 'Nashik', 'Mahabaleshwar', 'Alibaug']
+        };
+
+        function updateRoutes() {
+            const type = document.getElementById('transportType').value;
+            const destSelect = document.getElementById('destination');
+            destSelect.innerHTML = "";
+            destinations[type].forEach(city => {
+                let opt = document.createElement('option');
+                opt.value = city;
+                opt.innerHTML = city;
+                destSelect.appendChild(opt);
+            });
+        }
+        updateRoutes();
+
         const API_URL = 'https://travel-backend-oh36.onrender.com/api';
         document.getElementById('bookingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('mainBtn');
-            btn.innerText = "Processing Cloud Handshake...";
-
+            btn.innerText = "Syncing with Cloud...";
+            
             const payload = {
                 userId: localStorage.getItem('userId'),
                 passengerName: document.getElementById('passengerName').value,
+                age: document.getElementById('age').value,
                 contactEmail: document.getElementById('contactEmail').value,
                 phone: document.getElementById('phone').value,
                 source: document.getElementById('source').value,
                 destination: document.getElementById('destination').value,
-                adults: document.getElementById('adults').value,
-                children: document.getElementById('children').value,
                 transportType: document.getElementById('transportType').value,
+                travelClass: document.getElementById('travelClass').value,
                 hotelStay: document.getElementById('hotelStay').value,
                 foodPref: document.getElementById('foodPref').value,
                 date: document.getElementById('date').value
@@ -92,7 +122,6 @@
             const data = await res.json();
             if (res.ok) {
                 btn.style.display = 'none';
-                document.getElementById('status').style.display = 'block';
                 const dl = document.getElementById('downloadBtn');
                 dl.href = data.ticketUrl;
                 dl.style.display = 'block';
