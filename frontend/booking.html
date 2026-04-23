@@ -2,77 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TRAVEL1 | Booking Engine</title>
+    <title>TRAVEL1 | Enterprise Booking</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-attachment: fixed; margin: 0; padding-top: 80px; }
+        body { font-family: 'Poppins', sans-serif; background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-attachment: fixed; margin: 0; padding: 80px 10%; }
         .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); max-width: 900px; margin: auto; padding: 40px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; }
-        .btn-pay { background: #27ae60; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1.1rem; margin-top: 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .pax-card { background: #f9f9f9; padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #2c3e50; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .btn-confirm { background: #27ae60; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1.1rem; }
         .download-btn { display: none; background: #2c3e50; color: white; text-align: center; padding: 20px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 1.2rem; margin-top: 25px; }
     </style>
 </head>
 <body>
+
     <div class="glass-card">
-        <h2 style="text-align:center; color:#2c3e50;">Secure Cloud Reservation</h2>
+        <h2 style="text-align:center;">Cloud Reservation Engine</h2>
         <form id="bookingForm">
-            <label>Travel Category:</label>
-            <select id="transportType" onchange="updateRoutes()">
-                <option value="Flight">✈️ International (Dubai, London, New York)</option>
-                <option value="Train">🚆 Interstate (Delhi, Bangalore, Jaipur)</option>
-                <option value="Bus">🚌 Intercity (Pune, Nashik, Lonavala)</option>
-            </select>
+            <div class="grid">
+                <div>
+                    <label>Transport Mode:</label>
+                    <select id="transportType" onchange="updateRoutes()">
+                        <option value="Flight">✈️ International Flight (Out of India)</option>
+                        <option value="Train">🚆 Interstate Express (Out of Maharashtra)</option>
+                        <option value="Bus">🚌 Intercity Bus (Mumbai/Thane Region)</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Destination:</label>
+                    <select id="destination"></select>
+                </div>
+            </div>
 
             <div class="grid">
-                <input type="text" value="Mumbai (BOM)" readonly>
-                <select id="destination"></select>
+                <div>
+                    <label>Adults (Max 5):</label>
+                    <select id="adultCount" onchange="generatePaxFields()">
+                        <option value="1">1 Adult</option><option value="2">2 Adults</option><option value="3">3 Adults</option><option value="4">4 Adults</option><option value="5">5 Adults</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Children (Max 5):</label>
+                    <select id="childCount" onchange="generatePaxFields()">
+                        <option value="0">0 Children</option><option value="1">1 Child</option><option value="2">2 Children</option><option value="3">3 Children</option><option value="4">4 Children</option><option value="5">5 Children</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="passengerContainer"></div>
+
+            <div class="grid">
+                <input type="email" id="contactEmail" placeholder="Contact Email" required>
+                <input type="text" id="phone" placeholder="Contact Phone" required>
             </div>
 
             <div class="grid">
                 <select id="hotelStay">
-                    <option value="3 Nights Stay">🌙 3 Nights - Luxury Stay</option>
-                    <option value="5 Nights Stay">🌙 5 Nights - Deluxe Stay</option>
+                    <option value="None">No Hotel</option>
+                    <option value="3 Nights Stay">🌙 3 Nights Stay</option>
+                    <option value="5 Nights Stay">🌙 5 Nights Stay</option>
                 </select>
                 <input type="date" id="date" required>
             </div>
 
-            <h4 style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">Passenger 1 (Primary)</h4>
-            <div class="grid">
-                <input type="text" id="p1_name" placeholder="Full Name" required>
-                <input type="number" id="p1_age" placeholder="Age" required>
-            </div>
-            <div class="grid">
-                <input type="email" id="email" placeholder="Email Address" required>
-                <input type="text" id="phone" placeholder="Contact Number" required>
-            </div>
-            <select id="p1_meal">
-                <option value="Veg">🥗 Premium Veg Platter</option>
-                <option value="Non-Veg">🍗 Gourmet Non-Veg</option>
-            </select>
-
-            <h4 style="border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 15px;">Passenger 2</h4>
-            <div class="grid">
-                <input type="text" id="p2_name" placeholder="Full Name" required>
-                <input type="number" id="p2_age" placeholder="Age" required>
-            </div>
-            <select id="p2_meal">
-                <option value="Veg">🥗 Premium Veg Platter</option>
-                <option value="Non-Veg">🍗 Gourmet Non-Veg</option>
-            </select>
-
-            <button type="submit" class="btn-pay" id="mainBtn">Process & Generate VIKING Ticket</button>
+            <button type="submit" class="btn-confirm" id="mainBtn">Finalize Booking & Sync AWS</button>
         </form>
 
-        <a id="downloadBtn" href="#" target="_blank" class="download-btn">✅ DOWNLOAD VIKING E-TICKET (AWS S3)</a>
+        <div id="status" style="display:none; text-align:center; margin-top:15px; color:#27ae60; font-weight:600;">
+            ✔️ Success! Ticket details sent to Mail and Phone Number.
+        </div>
+        <a id="downloadBtn" href="#" target="_blank" class="download-btn">DOWNLOAD E-TICKET</a>
     </div>
 
     <script>
         const API_URL = 'https://travel-backend-oh36.onrender.com/api';
         const dests = {
-            'Flight': ['Dubai', 'London', 'New York', 'Tokyo'],
-            'Train': ['Delhi', 'Bangalore', 'Jaipur', 'Hyderabad'],
-            'Bus': ['Pune', 'Nashik', 'Lonavala', 'Alibaug']
+            'Flight': ['London (LHR)', 'Dubai (DXB)', 'New York (JFK)', 'Tokyo (HND)', 'Singapore (SIN)', 'Paris (CDG)', 'Sydney (SYD)'],
+            'Train': ['Delhi Junction', 'Bangalore City', 'Chennai Central', 'Kolkata (Howrah)', 'Hyderabad Deccan', 'Jaipur Pink City', 'Ahmedabad'],
+            'Bus': ['Pune Swargate', 'Nashik Central', 'Lonavala Market', 'Mahabaleshwar', 'Alibaug Port', 'Thane West']
         };
 
         function updateRoutes() {
@@ -82,24 +89,57 @@
                 let o = document.createElement('option'); o.value = c; o.innerHTML = c; select.appendChild(o);
             });
         }
+
+        function generatePaxFields() {
+            const container = document.getElementById('passengerContainer');
+            const adults = parseInt(document.getElementById('adultCount').value);
+            const children = parseInt(document.getElementById('childCount').value);
+            container.innerHTML = "<h4>Passenger Details</h4>";
+
+            for(let i=1; i <= (adults + children); i++) {
+                const type = i <= adults ? "Adult" : "Child";
+                container.innerHTML += `
+                    <div class="pax-card">
+                        <strong>Passenger ${i} (${type})</strong>
+                        <div class="grid">
+                            <input type="text" class="pax-name" placeholder="Full Name" required>
+                            <input type="number" class="pax-age" placeholder="Age" required>
+                        </div>
+                        <select class="pax-meal">
+                            <option value="Veg">🥗 Veg Meal</option>
+                            <option value="Non-Veg">🍗 Non-Veg Meal</option>
+                        </select>
+                    </div>`;
+            }
+        }
+
         updateRoutes();
+        generatePaxFields();
 
         document.getElementById('bookingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            document.getElementById('mainBtn').innerText = "Generating Cloud Ticket...";
+            document.getElementById('mainBtn').innerText = "Cloud Sync in Progress...";
             
+            const paxElements = document.getElementsByClassName('pax-card');
+            let passengers = [];
+            for (let card of paxElements) {
+                passengers.push({
+                    name: card.querySelector('.pax-name').value,
+                    age: card.querySelector('.pax-age').value,
+                    meal: card.querySelector('.pax-meal').value
+                });
+            }
+
             const payload = {
                 userId: localStorage.getItem('userId'),
-                passengerName: document.getElementById('p1_name').value,
-                p2Name: document.getElementById('p2_name').value,
-                contactEmail: document.getElementById('email').value,
+                passengers,
+                contactEmail: document.getElementById('contactEmail').value,
                 phone: document.getElementById('phone').value,
-                source: "MUMBAI",
+                source: "MUMBAI (BOM)",
                 destination: document.getElementById('destination').value,
                 transportType: document.getElementById('transportType').value,
                 hotelStay: document.getElementById('hotelStay').value,
-                date: document.getElementById('date').value,
-                meal: document.getElementById('p1_meal').value
+                date: document.getElementById('date').value
             };
 
             const res = await fetch(`${API_URL}/bookings/book`, {
@@ -111,6 +151,7 @@
             const data = await res.json();
             if (res.ok) {
                 document.getElementById('mainBtn').style.display = 'none';
+                document.getElementById('status').style.display = 'block';
                 const dl = document.getElementById('downloadBtn');
                 dl.href = data.ticketUrl;
                 dl.style.display = 'block';
