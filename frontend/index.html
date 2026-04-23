@@ -3,27 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRAVEL1 | Discover the World</title>
+    <title>TRAVEL1 | Explore the Extraordinary</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { scroll-behavior: smooth; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: #fdfdfd; color: #333; }
-        nav { background: rgba(44, 62, 80, 0.95); backdrop-filter: blur(10px); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; }
-        nav h1 { color: white; margin: 0; letter-spacing: 3px; font-size: 26px; }
-        nav h1 span { color: #f1c40f; }
-        .hero { height: 80vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1439337153520-7082a56a81f4?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-attachment: fixed; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
-        .btn-get-started { background: #f1c40f; color: #2c3e50; padding: 18px 45px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 20px; transition: 0.4s; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #fff; color: #333; overflow-x: hidden; }
         
-        section { padding: 80px 10%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .dest-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .dest-card img { width: 100%; height: 200px; object-fit: cover; }
+        nav { background: #2c3e50; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav h1 { color: white; margin: 0; letter-spacing: 2px; }
+        nav h1 span { color: #f1c40f; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 25px; font-size: 14px; }
 
-        #auth-booking-container { background: #f4f7f6; padding: 100px 10%; background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); }
-        .glass-card { background: white; max-width: 600px; margin: 20px auto; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        input, select { width:100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
-        .submit-btn { background: #2c3e50; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 16px; transition: 0.3s; }
-        .submit-btn:hover { background: #34495e; }
+        .hero { height: 70vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+        
+        .btn-main { background: #f1c40f; color: #2c3e50; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 18px; margin-top: 20px; transition: 0.3s; }
+        .btn-main:hover { transform: scale(1.05); }
+
+        section { padding: 60px 10%; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+
+        /* Category Grid */
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .cat-card { height: 300px; border-radius: 15px; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 20px; color: white; text-decoration: none; font-weight: 600; font-size: 1.2rem; }
+        .cat-card img { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; z-index: -1; transition: 0.5s; }
+        .cat-card:hover img { transform: scale(1.1); }
+
+        /* Reviews Scroll */
+        .reviews-wrapper { background: #f9f9f9; padding: 40px 0; overflow: hidden; }
+        .review-track { display: flex; width: calc(250px * 10); animation: scroll 20s linear infinite; }
+        .review-box { width: 300px; background: white; margin: 0 20px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-shrink: 0; }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* Fake Ad Banner */
+        .ad-banner { background: #f1c40f; padding: 20px; text-align: center; border-radius: 10px; margin: 40px 0; font-weight: 600; }
+
+        footer { background: #2c3e50; color: white; padding: 40px 10%; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+        footer h4 { color: #f1c40f; margin-bottom: 15px; }
+        footer p { font-size: 0.9rem; opacity: 0.8; margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -31,83 +47,69 @@
     <nav>
         <h1>TRAVEL<span>1</span></h1>
         <div class="nav-links">
-            <a href="#" style="color:white; text-decoration:none; margin-left:20px;">Home</a>
-            <a href="#destinations" style="color:white; text-decoration:none; margin-left:20px;">Trending</a>
-            <a href="#auth-section" style="color:white; text-decoration:none; margin-left:20px;">Book Ticket</a>
+            <a href="#">Home</a>
+            <a href="#categories">Explore</a>
+            <a href="booking.html">Book Trip</a>
         </div>
     </nav>
 
     <div class="hero">
-        <h2>Your Premium Escape Awaits</h2>
-        <a href="#auth-section" class="btn-get-started">Get Started</a>
+        <h2 style="font-size: 3.5rem; margin: 0;">Beyond the Horizon</h2>
+        <p>Premium Cloud-Integrated Travel Solutions</p>
+        <a href="booking.html" class="btn-main">Get Started</a>
     </div>
 
-    <section id="destinations">
-        <h2 style="text-align:center; margin-bottom: 40px;">Featured Destinations</h2>
-        <div class="grid">
-            <div class="dest-card">
-                <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=600&q=80">
-                <div style="padding:20px;"><h3>Dubai Luxury</h3><p>★★★★★ (4.9)</p></div>
-            </div>
-            <div class="dest-card">
-                <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=600&q=80">
-                <div style="padding:20px;"><h3>Venice Canal Tour</h3><p>★★★★★ (4.8)</p></div>
-            </div>
-            <div class="dest-card">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80">
-                <div style="padding:20px;"><h3>Swiss Alps</h3><p>★★★★★ (5.0)</p></div>
-            </div>
+    <section id="categories">
+        <div class="section-title"><h2>Discover Your Vibe</h2></div>
+        <div class="category-grid">
+            <a href="booking.html" class="cat-card">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80">
+                <span>Pristine Beaches</span>
+            </a>
+            <a href="booking.html" class="cat-card">
+                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80">
+                <span>Majestic Mountains</span>
+            </a>
+            <a href="booking.html" class="cat-card">
+                <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=600&q=80">
+                <span>Urban Cities</span>
+            </a>
         </div>
     </section>
 
-    <div id="auth-booking-container">
-        <div id="auth-section" class="glass-card">
-            <h2 style="text-align:center;">User Login</h2>
-            <form id="loginForm">
-                <input type="email" id="email" placeholder="Email Address" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit" class="submit-btn">Login & Unlock Booking</button>
-            </form>
-            <p id="loginMessage" style="color:red; text-align:center; margin-top:10px;"></p>
-        </div>
-
-        <div id="booking-section" class="glass-card" style="display:none; max-width: 800px;">
-            <h2 style="text-align:center;">Cloud Booking Engine</h2>
-            <form id="bookingForm">
-                <input type="text" id="passengerName" placeholder="Full Name" required>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="source" placeholder="Origin (City)" required>
-                    <input type="text" id="destination" placeholder="Destination (City)" required>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                    <select id="transportType">
-                        <option value="Flight">✈️ Flight</option>
-                        <option value="Train">🚆 Express Train</option>
-                        <option value="Cab">🚗 Luxury Cab</option>
-                    </select>
-                    <select id="foodPref">
-                        <option value="Veg">🥗 Pure Veg</option>
-                        <option value="Non-Veg">🍗 Non-Veg</option>
-                    </select>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                    <select id="stayDuration">
-                        <option value="1 Night">🌙 1 Night Stay</option>
-                        <option value="3 Nights">🌙 3 Nights Stay</option>
-                        <option value="5 Nights">🌙 5 Nights Stay</option>
-                        <option value="None">No Hotel</option>
-                    </select>
-                    <input type="date" id="date" required>
-                </div>
-                <button type="submit" class="submit-btn" style="background:#27ae60;">Confirm & Generate VIKING Ticket</button>
-            </form>
-            <div id="result" style="display:none; margin-top: 25px; text-align: center; border: 2px dashed #27ae60; padding: 15px; border-radius: 12px;">
-                <h4 style="color:#27ae60; margin-bottom: 5px;">Success! Ticket Uploaded to AWS</h4>
-                <a id="downloadLink" href="#" target="_blank" style="color: #27ae60; font-weight: 600; text-decoration: none;">Click to Download E-Ticket</a>
-            </div>
+    <div class="reviews-wrapper">
+        <div class="review-track">
+            <div class="review-box">"E-Ticket generation is lightning fast. Best UX ever!" - <b>Riya A.</b> ★★★★★</div>
+            <div class="review-box">"Love the VIKING certification on the PDFs." - <b>Hadeel B.</b> ★★★★★</div>
+            <div class="review-box">"Secure, reliable, and modern." - <b>Sanika C.</b> ★★★★★</div>
+            <div class="review-box">"E-Ticket generation is lightning fast. Best UX ever!" - <b>Riya A.</b> ★★★★★</div>
+            <div class="review-box">"Love the VIKING certification on the PDFs." - <b>Hadeel B.</b> ★★★★★</div>
         </div>
     </div>
 
-    <script src="js/api.js"></script>
+    <section>
+        <div class="ad-banner">
+            FLASH SALE: 20% OFF ON ALL MOUNTAIN PACKAGES! USE CODE: CLOUD2026
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <h4>TRAVEL1 HQ</h4>
+            <p>Next-Gen Cloud Travel Architecture</p>
+            <p>&copy; 2026 TRAVEL1 Systems</p>
+        </div>
+        <div>
+            <h4>Contact Us</h4>
+            <p>📧 support@travel1.com</p>
+            <p>📞 +91 98765 43210</p>
+            <p>📞 1800-TRAVEL-ONE</p>
+        </div>
+        <div>
+            <h4>Follow Us</h4>
+            <p>Instagram | LinkedIn | VIKING-Net</p>
+        </div>
+    </footer>
+
 </body>
 </html>
