@@ -7,18 +7,19 @@
 </head>
 <body>
     <div class="hero">
-        <div class="form-container" style="background: white; padding: 40px; border-radius: 8px;">
-            <h2>Book Your Trip</h2>
+        <div class="form-container" style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <h2 style="text-align: center; margin-bottom: 20px;">Book Your Trip</h2>
             <form id="bookingForm">
-                <input type="text" id="passengerName" placeholder="Full Name (e.g., Varun Chiplunkar)" required style="display:block; margin: 10px 0; padding: 10px; width: 100%;">
-                <input type="text" id="destination" placeholder="Destination (e.g., Dubai, Japan)" required style="display:block; margin: 10px 0; padding: 10px; width: 100%;">
-                <input type="date" id="date" required style="display:block; margin: 10px 0; padding: 10px; width: 100%;">
-                <button type="submit" class="cta-button">Confirm Booking</button>
+                <input type="text" id="passengerName" placeholder="Full Name" required style="display:block; margin: 10px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="text" id="source" placeholder="From (e.g., Mumbai)" required style="display:block; margin: 10px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="text" id="destination" placeholder="To (e.g., Dubai, Japan)" required style="display:block; margin: 10px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="date" id="date" required style="display:block; margin: 10px 0; padding: 12px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
+                <button type="submit" class="cta-button" style="width: 100%; padding: 12px; cursor: pointer;">Confirm Booking</button>
             </form>
             
-            <div id="result" style="margin-top: 20px; display: none;">
+            <div id="result" style="margin-top: 20px; display: none; text-align: center;">
                 <h3 style="color: green;">Booking Successful!</h3>
-                <a id="downloadLink" href="#" target="_blank" class="cta-button" style="background: #28a745; margin-top: 10px;">Download E-Ticket (AWS S3)</a>
+                <a id="downloadLink" href="#" target="_blank" class="cta-button" style="background: #28a745; display: inline-block; padding: 12px 20px; text-decoration: none; color: white; border-radius: 4px; margin-top: 10px;">Download E-Ticket (AWS S3)</a>
             </div>
         </div>
     </div>

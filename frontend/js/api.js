@@ -1,4 +1,4 @@
-const API_URL = 'https://travel-backend-oh36.onrender.com/api'; // CHANGE THIS TO YOUR EC2 IP LATER (e.g., http://54.123.45.67:5000/api)
+const API_URL = 'https://travel-backend-oh36.onrender.com/api';
 
 // Handle Login
 const loginForm = document.getElementById('loginForm');
@@ -17,7 +17,7 @@ if (loginForm) {
         const data = await res.json();
         if (res.ok) {
             localStorage.setItem('userId', data.userId);
-            window.location.href = 'booking.html'; // Redirect on success
+            window.location.href = 'booking.html';
         } else {
             document.getElementById('loginMessage').innerText = data.error;
         }
@@ -30,6 +30,7 @@ if (bookingForm) {
     bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const passengerName = document.getElementById('passengerName').value;
+        const source = document.getElementById('source').value;
         const destination = document.getElementById('destination').value;
         const date = document.getElementById('date').value;
         const userId = localStorage.getItem('userId');
@@ -43,13 +44,13 @@ if (bookingForm) {
         const res = await fetch(`${API_URL}/bookings/book`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId, passengerName, destination, date })
+            body: JSON.stringify({ userId, passengerName, source, destination, date })
         });
 
         const data = await res.json();
         if (res.ok) {
             document.getElementById('result').style.display = 'block';
-            document.getElementById('downloadLink').href = data.ticketUrl; // The AWS S3 Link
+            document.getElementById('downloadLink').href = data.ticketUrl;
         } else {
             alert('Booking failed.');
         }
