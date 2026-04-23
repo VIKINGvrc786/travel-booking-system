@@ -21,7 +21,7 @@ const s3Client = new S3Client({
 });
 
 // ==========================================
-// 2. DBaaS: MongoDB Atlas Connection (IPv4 Forced)
+// 2. DBaaS: MongoDB Atlas Connection
 // ==========================================
 mongoose.connect(process.env.MONGO_URI, { family: 4 })
     .then(() => console.log('✅ Connected to MongoDB Atlas'))
@@ -37,7 +37,8 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 const BookingSchema = new mongoose.Schema({
-    name: String,
+    userId: String,
+    passengerName: String,
     destination: String,
     date: String,
     ticketUrl: String
@@ -45,48 +46,48 @@ const BookingSchema = new mongoose.Schema({
 const Booking = mongoose.model('Booking', BookingSchema);
 
 // ==========================================
-// 4. API Endpoints
+// 4. API Endpoints (Synced with api.js)
 // ==========================================
 
-// Simple Login/Register Route
-app.post('/api/register', async (req, res) => {
+// MATCHES: /api/auth/login
+app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         let user = await User.findOne({ email });
         
+        // If user doesn't exist, create them (simplified for your lab)
         if (!user) {
             user = new User({ email, password });
             await user.save();
         }
-        res.status(200).json({ message: 'Login successful!', user });
+        
+        // Return userId so frontend can store it in localStorage
+        res.status(200).json({ message: 'Login successful!', userId: user._id });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// Book Trip, Generate PDF, Upload to S3
-app.post('/api/book', async (req, res) => {
+// MATCHES: /api/bookings/book
+app.post('/api/bookings/book', async (req, res) => {
     try {
-        const { name, destination, date } = req.body;
+        const { userId, passengerName, destination, date } = req.body;
 
-        // Create PDF
         const doc = new PDFDocument();
         let buffers = [];
         doc.on('data', buffers.push.bind(buffers));
         
         doc.fontSize(25).text('Travel E-Ticket', { align: 'center' });
         doc.moveDown();
-        doc.fontSize(16).text(`Passenger Name: ${name}`);
+        doc.fontSize(16).text(`Passenger Name: ${passengerName}`);
         doc.text(`Destination: ${destination}`);
         doc.text(`Date of Travel: ${date}`);
         doc.end();
 
-        // When PDF is done generating...
         doc.on('end', async () => {
             const pdfData = Buffer.concat(buffers);
             const fileName = `ticket-${Date.now()}.pdf`;
 
-            // Upload parameters for AWS S3
             const uploadParams = {
                 Bucket: process.env.S3_BUCKET_NAME,
                 Key: fileName,
@@ -94,17 +95,12 @@ app.post('/api/book', async (req, res) => {
                 ContentType: 'application/pdf'
             };
 
-            // Send to S3
             await s3Client.send(new PutObjectCommand(uploadParams));
-            
-            // Generate public URL
             const ticketUrl = `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
-            // Save to MongoDB
-            const newBooking = new Booking({ name, destination, date, ticketUrl });
+            const newBooking = new Booking({ userId, passengerName, destination, date, ticketUrl });
             await newBooking.save();
 
-            // Send URL back to Frontend
             res.status(200).json({ message: 'Booking Confirmed!', ticketUrl });
         });
 

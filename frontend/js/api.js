@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api'; // CHANGE THIS TO YOUR EC2 IP LATER (e.g., http://54.123.45.67:5000/api)
+const API_URL = 'https://travel-backend-oh36.onrender.com/api'; // CHANGE THIS TO YOUR EC2 IP LATER (e.g., http://54.123.45.67:5000/api)
 
 // Handle Login
 const loginForm = document.getElementById('loginForm');
