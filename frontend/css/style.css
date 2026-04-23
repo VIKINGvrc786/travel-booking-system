@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+    height: 100%;
+}
+
+/* Background setup to mimic the sand texture */
+.hero {
+    height: 100vh;
+    background: url('../assets/sand-bg.jpg') no-repeat center center/cover;
+    background-color: #dcb88c; /* Fallback color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    z-index: 10;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #ffc107; /* Yellow button from screenshot */
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #e0a800;
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book a Trip</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="hero">
+        <div class="form-container" style="background: white; padding: 40px; border-radius: 8px;">
+            <h2>Book Your Trip</h2>
+            <form id="bookingForm">
+                <input type="text" id="passengerName" placeholder="Full Name (e.g., Varun Chiplunkar)" required style="display:block; margin: 10px 0; padding: 10px; width: 100%;">
+                <input type="text" id="destination" placeholder="Destination (e.g., Dubai, Japan)" required style="display:block; margin: 10px 0; padding: 10px; width: 100%;">
+                <input type="date" id="date" required style="display:block; margin: 10px 0; padding: 10px; width: 100%;">
+                <button type="submit" class="cta-button">Confirm Booking</button>
+            </form>
+            
+            <div id="result" style="margin-top: 20px; display: none;">
+                <h3 style="color: green;">Booking Successful!</h3>
+                <a id="downloadLink" href="#" target="_blank" class="cta-button" style="background: #28a745; margin-top: 10px;">Download E-Ticket (AWS S3)</a>
+            </div>
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+</body>
+</html>
